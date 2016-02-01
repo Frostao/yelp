@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class Business: NSObject {
     let name: String?
@@ -16,10 +17,10 @@ class Business: NSObject {
     let distance: String?
     let ratingImageURL: NSURL?
     let reviewCount: NSNumber?
+    let locationCoordinate:CLLocation?
     
     init(dictionary: NSDictionary) {
         name = dictionary["name"] as? String
-        
         let imageURLString = dictionary["image_url"] as? String
         if imageURLString != nil {
             imageURL = NSURL(string: imageURLString!)!
@@ -42,6 +43,16 @@ class Business: NSObject {
                 }
                 address += neighborhoods![0] as! String
             }
+            if let coordinate = location!["coordinate"] as? NSDictionary {
+                
+                let latitude = coordinate["latitude"] as! NSNumber
+                let longitude = coordinate["longitude"] as! NSNumber
+                locationCoordinate = CLLocation(latitude: latitude.doubleValue, longitude: longitude.doubleValue)
+            } else {
+                locationCoordinate = nil
+            }
+        } else {
+            locationCoordinate = nil
         }
         self.address = address
         
@@ -73,6 +84,8 @@ class Business: NSObject {
         }
         
         reviewCount = dictionary["review_count"] as? NSNumber
+        
+        
     }
     
     class func businesses(array array: [NSDictionary]) -> [Business] {
@@ -88,7 +101,8 @@ class Business: NSObject {
         YelpClient.sharedInstance.searchWithTerm(term, completion: completion)
     }
     
-    class func searchWithTerm(term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, completion: ([Business]!, NSError!) -> Void) -> Void {
-        YelpClient.sharedInstance.searchWithTerm(term, sort: sort, categories: categories, deals: deals, completion: completion)
+    
+    class func searchWithTerm(term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, completion: ([Business]!, NSError!) -> Void, offset:Int) -> Void {
+        YelpClient.sharedInstance.searchWithTerm(term, sort: sort, categories: categories, deals: deals, completion: completion, offset: offset)
     }
 }
