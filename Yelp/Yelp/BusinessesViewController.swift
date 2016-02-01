@@ -8,19 +8,27 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController {
+class BusinessesViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
 
     var businesses: [Business]!
+    let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        self.navigationItem.titleView = searchBar
+        searchBar.delegate = self
+        
+        
 
-        Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
+        Business.searchWithTerm("", completion: { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
         
             for business in businesses {
                 print(business.name!)
                 print(business.address!)
+                
             }
         })
 
@@ -34,6 +42,29 @@ class BusinessesViewController: UIViewController {
             }
         }
 */
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        
+    }
+    
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = true
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {
