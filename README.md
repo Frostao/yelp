@@ -19,7 +19,9 @@ The following **optional** features are implemented:
    - [X] Implement map view of restaurant results.
 - [X] Implement the restaurant detail page.
 
-
+The following **additional** features are implemented:
+- [X] The View is sorted by distance
+- [X] Used stack view along with auto layout
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
