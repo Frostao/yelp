@@ -22,6 +22,7 @@ The following **optional** features are implemented:
 The following **additional** features are implemented:
 - [X] The View is sorted by distance
 - [X] Used stack view along with auto layout
+
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
